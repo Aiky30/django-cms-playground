@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'treebeard',
     'sekizai',
     'djangocms_text_ckeditor',
+    'toolbar',
 ]
 
 MIDDLEWARE = [
