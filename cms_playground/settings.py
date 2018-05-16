@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'treebeard',
     'sekizai',
     'djangocms_text_ckeditor',
-    'toolbar',
+    'history',
 ]
 
 MIDDLEWARE = [
@@ -68,7 +68,8 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            'templates'
+            'templates',
+            'history/templates',
         ],
         'APP_DIRS': True,
         'OPTIONS': {
