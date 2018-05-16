@@ -61,7 +61,7 @@ MIDDLEWARE = [
     'cms.middleware.language.LanguageCookieMiddleware',
 ]
 
-ROOT_URLCONF = 'minimal_cms.urls'
+ROOT_URLCONF = 'cms_playground.urls'
 
 TEMPLATES = [
     {
@@ -83,7 +83,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'minimal_cms.wsgi.application'
+WSGI_APPLICATION = 'cms_playground.wsgi.application'
 
 
 # Database
