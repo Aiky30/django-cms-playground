@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from django.template import loader
 
 
-from cms.models import Page, Title
+from cms.models import Page, Title, Placeholder
 
 from django.core.serializers import serialize
 
@@ -19,6 +19,8 @@ def index(request):
 
         # Get the pages field list and convert it to json
         page_object = Page.objects.get(id=page_id)
+
+        page_placeholders = Placeholder.objects.filter()
 
         data = serialize('json', [ page_object])
 
