@@ -12,7 +12,7 @@ class MyToolbar(CMSToolbar):
 
     def populate(self):
 
-        url = 'toolbar/index'
+        url = '/toolbar/index'
         name = 'History'
 
 
