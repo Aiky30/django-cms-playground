@@ -3,20 +3,24 @@
     <h2>History List</h2>
 
     <p>Page Id: {{page_stats.page_id}}</p>
-    <p>Linked page Id: {{page_stats.linked_page_id}}</p>
+    <p>Title Id: {{page_stats.title_id}}</p>
+    <p>Versions: {{page_history_length}}</p>
 
-    <p>Title: </p>
-    <p>{{page_title}}</p>
+    <table border="1" style="border-spacing: 5px;">
+        <thead>
+            <th>&nbsp;</th>
+            <th style="text-align:left">Version number: </th>
+            <th style="text-align:left">History: </th>
+        </thead>
+        <tbody>
+            {% for history in page_history %}
+            <tr>
+                <td><input type="radio" name="history" /></td>
+                <td>{{history.created_date}}</td>
+                <td>{{history}}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 
-    <p>Page:</p>
-    <p>{{page_data}}</p>
-
-    <p>Page Placeholders:</p>
-    <p>{{page_placeholders}}</p>
-
-    <p>Page plugins</p>
-    <p>{{plugin_list}}</p>
-
-    <p>Plugin instances</p>
-    <p>{{cms_plugin_instance_list}}</p>
 </div>
