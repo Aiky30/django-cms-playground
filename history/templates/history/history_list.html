@@ -9,15 +9,23 @@
     <table border="1" style="border-spacing: 5px;">
         <thead>
             <th>&nbsp;</th>
-            <th style="text-align:left">Version number: </th>
-            <th style="text-align:left">History: </th>
+            <th>Version</th>
+            <th style="text-align:left">Version date</th>
+            <th style="text-align:left">Title data</th>
+            <th style="text-align:left">Page data</th>
+            <th style="text-align:left">Placeholder data</th>
+            <th style="text-align:left">Plugin data</th>
         </thead>
         <tbody>
-            {% for history in page_history %}
+        {% for history in page_history %}
             <tr>
                 <td><input type="radio" name="history" /></td>
+                <th>&nbsp;</th>
                 <td>{{history.created_date}}</td>
-                <td>{{history}}</td>
+                <td>{{history.title_data}}</td>
+                <td>{{history.page_data}}</td>
+                <td>{{history.placeholders}}</td>
+                <td>{{history.plugins}}</td>
             </tr>
         {% endfor %}
         </tbody>

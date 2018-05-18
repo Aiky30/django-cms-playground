@@ -104,6 +104,8 @@ def index(request):
         queryset_page_history = FIL_History.objects.filter(
             page_id=page_id,
             title_id=title_id,
+        ).order_by(
+            '-created_date'
         )
         page_history = serialize('json', queryset_page_history)
 
