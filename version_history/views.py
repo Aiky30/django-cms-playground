@@ -8,7 +8,7 @@ from cms.models import Page, Title, CMSPlugin
 
 from django.core.serializers import serialize
 
-from .models import FIL_History
+from .models import Version_History
 
 
 #from django.db.models import Count, Prefetch
@@ -48,6 +48,7 @@ from cms.plugin_pool import plugin_pool
 def get_plugin(plugin_type):
     return plugin_pool.get_plugin(plugin_type)
 
+"""
 def track_instances(page_id, title_id, page_language):
 
     # Get the pages field list and convert it to json
@@ -90,6 +91,7 @@ def track_instances(page_id, title_id, page_language):
         'plugin_list': cms_plugin_list,
         'cms_plugin_instance_list': cms_plugin_instance_list,
     })
+"""
 
 def index(request):
 
@@ -101,7 +103,7 @@ def index(request):
 
         #return track_instances(page_id, title_id, page_language)
 
-        queryset_page_history = FIL_History.objects.filter(
+        queryset_page_history = Version_History.objects.filter(
             page_id=page_id,
             title_id=title_id,
         ).order_by(
@@ -109,7 +111,7 @@ def index(request):
         )
         page_history = serialize('json', queryset_page_history)
 
-        return render(request, 'history/history_list.html', {
+        return render(request, 'version_history/history_list.html', {
             'page_stats': {
                 'page_id': page_id,
                 'title_id': title_id,

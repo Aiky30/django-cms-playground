@@ -17,7 +17,7 @@ from cms.api import get_page_draft, can_change_page
 
 
 @toolbar_pool.register
-class HistoryToolbar(CMSToolbar):
+class VersionHistoryToolbar(CMSToolbar):
 
     def init_from_request(self):
         self.page = get_page_draft(self.request.current_page)
@@ -39,7 +39,7 @@ class HistoryToolbar(CMSToolbar):
 
             current_page_id = current_page.id
 
-            url = '/history/index/?page_id=%s&title_id=%s&page_language=%s' % (current_page_id, self.title.id, self.current_lang)
+            url = '/version_history/index/?page_id=%s&title_id=%s&page_language=%s' % (current_page_id, self.title.id, self.current_lang)
             name = 'History'
 
             """

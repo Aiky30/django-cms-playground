@@ -10,11 +10,12 @@
         <thead>
             <th>&nbsp;</th>
             <th>Version</th>
-            <th style="text-align:left">Version date</th>
-            <th style="text-align:left">Title data</th>
-            <th style="text-align:left">Page data</th>
-            <th style="text-align:left">Placeholder data</th>
-            <th style="text-align:left">Plugin data</th>
+            <th style="text-align:left">Version</th>
+            <th style="text-align:left">Title</th>
+            <th style="text-align:left">Page</th>
+            <th style="text-align:left">Placeholder</th>
+            <th style="text-align:left">Plugin</th>
+            <th style="text-align:left">Plugin Instance</th>
         </thead>
         <tbody>
         {% for history in page_history %}
@@ -26,6 +27,7 @@
                 <td>{{history.page_data}}</td>
                 <td>{{history.placeholders}}</td>
                 <td>{{history.plugins}}</td>
+                <td>{{history.plugin_instance}}</td>
             </tr>
         {% endfor %}
         </tbody>
