@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'djangocms_text_ckeditor',
     'djangocms_history',
     'version_history',
+    'cms_stb_plugin',
 ]
 
 MIDDLEWARE = [
@@ -71,6 +72,7 @@ TEMPLATES = [
         'DIRS': [
             'templates',
             'history/templates',
+            'cms_stb_plugin/templates',
         ],
         'APP_DIRS': True,
         'OPTIONS': {
