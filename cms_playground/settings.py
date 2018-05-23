@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'djangocms_history',
     'version_history',
     'cms_stb_plugin',
+    'cms_simple_plugin',
 ]
 
 MIDDLEWARE = [
