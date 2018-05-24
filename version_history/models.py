@@ -8,8 +8,8 @@ from cms.models import Page, Title
 # TODO: Type of version (Page, Article) Should be registered in app config!!
 
 class Version_History(models.Model):
-    page = models.ForeignKey(Page, related_name='page_history')
-    title = models.ForeignKey(Title, related_name='title_history')
+    page_id = models.CharField(max_length=50, null=True, blank=True, db_index=True)
+    title_id = models.CharField(max_length=50, null=True, blank=True, db_index=True)
     title_data = JSONField()
     page_data = JSONField()
     placeholders = JSONField()

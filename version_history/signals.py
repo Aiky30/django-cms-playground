@@ -88,8 +88,8 @@ def _publish_receiver(sender, **kwargs):
         cms_plugin_list[placeholder.id] = serialize('json', plugin_list)
 
     version = Version_History(
-        page=page_instance,
-        title=title_instance,
+        page_id=page_instance.id,
+        title_id=title_instance.id,
         title_data= serialize('json', [ title_instance ]),
         page_data= serialize('json', [ page_instance ]),
         placeholders= page_placeholders,
