@@ -6,16 +6,16 @@ from django.core.serializers import serialize, deserialize
 
 from .models import Version_History
 
+from djangocms_history.helpers import get_plugin_data
+
 
 """
-
-Create the STB plugin!!!
 
 Questions:
     The plugin architecture is very confusing to follow
     Is it best to use the plugin pool and serialize that way or track the DB tables down and duplicate them.
-    No way to serialize the plugin instance models
-    - When will the plugin pool docs be populated: http://docs.django-cms.org/en/latest/reference/plugins.html
+    No way to serialize the plugin instance models, is there a cleaner way to achieve this without using magic?
+    When will the plugin pool docs be populated? http://docs.django-cms.org/en/latest/reference/plugins.html
 
 """
 
@@ -34,37 +34,29 @@ def get_title(page, language):
     except Title.DoesNotExist:
         return None
 
-from django.utils.encoding import force_text
-from djangocms_history.utils import get_plugin_model
+
+# Taken from cms/admin/placeholderadmin.py
+from django.shortcuts import get_list_or_404, get_object_or_404, render
+
+def _get_plugin_from_id(plugin_id):
+    queryset = CMSPlugin.objects.values_list('plugin_type', flat=True)
+    plugin_type = get_list_or_404(queryset, pk=plugin_id)[0]
+    # CMSPluginBase subclass
+    plugin_class = plugin_pool.get_plugin(plugin_type)
+    real_queryset = plugin_class.get_render_queryset().select_related('parent', 'placeholder')
+    return get_object_or_404(real_queryset, pk=plugin_id)
 
 
-from djangocms_history.utils import get_plugin_fields
-# Taken from nad modified djangocms_history.helpers import get_plugin_data
-def get_plugin_data(plugin, only_meta=False):
-    if only_meta:
-        custom_data = None
-    else:
-        plugin_fields = get_plugin_fields(plugin.plugin_type)
+# Taken from djangocms_history/models
+import functools
+import json
 
-        # Edited
-        _plugin_data = serialize('python', (plugin,), fields=plugin_fields)[0]
-        #_plugin_data = serialize('json', (plugin,), fields=plugin_fields)
+from django.core.serializers.json import DjangoJSONEncoder
 
+dump_json = functools.partial(json.dumps, cls=DjangoJSONEncoder)
 
-        custom_data = _plugin_data['fields']
-
-    plugin_data = {
-        'pk': plugin.pk,
-        'creation_date': plugin.creation_date,
-        'position': plugin.position,
-        'plugin_type': plugin.plugin_type,
-        'parent_id': plugin.parent_id,
-        'data': custom_data,
-    }
-    return plugin_data
 
 def _publish_receiver(sender, **kwargs):
-    #logic goes here
 
     page_instance = kwargs['instance']
     page_language = kwargs['language']
@@ -80,33 +72,19 @@ def _publish_receiver(sender, **kwargs):
     # Get all cms plugins for each placeholder
     for placeholder in page_placeholders_list:
 
-        plugin_list = CMSPlugin.objects.filter(placeholder_id=placeholder, language=page_language)
+        plugin_list = placeholder.cmsplugin_set.all()
+        #plugin_list = CMSPlugin.objects.filter(placeholder_id=placeholder, language=page_language)
 
         plugin_instance_list = []
         for plugin in plugin_list:
 
-            current_plugin_instance = get_plugin(plugin.plugin_type)
+            plugin_instance = _get_plugin_from_id(plugin_id=plugin.id)
 
-            fetched_data = get_plugin_data(plugin=plugin)
+            fetched_data = get_plugin_data(plugin=plugin_instance)
 
-            current_plugin_model = get_plugin_model(plugin.plugin_type)
-            data_model = force_text(current_plugin_model._meta)
-
-            data = {
-                'model': data_model,
-                'fields': fetched_data['data'],
-            }
-
-            deserialized = list(deserialize('python', [data]))[0]
-
-
-            #deserialized_plugin = list(serialize('json', [current_plugin_model]))
-
-
-            plugin_instance_list.append(data)
+            plugin_instance_list.append(dump_json(fetched_data))
 
         cms_plugin_instance_list[placeholder.id] = plugin_instance_list
-
         cms_plugin_list[placeholder.id] = serialize('json', plugin_list)
 
     version = Version_History(
