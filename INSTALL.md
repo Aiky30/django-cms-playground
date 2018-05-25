@@ -39,7 +39,7 @@ Install packages
 pip install -r requirements.txt
 ```
 
-Create a Postgres DB with the name: "cmsplayground"
+Sql lite can be used by default, alternativley change the DB settings in the settings.py file and create a Postgres DB with the name: "cmsplayground"
 
 Populate the database
 ```

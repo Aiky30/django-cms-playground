@@ -102,6 +102,21 @@ DATABASES = {
 }
 
 
+"""
+# Optional Postgres config:
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'HOST': 'localhost',
+        'NAME': 'cmsplayground',
+        'PASSWORD': '',
+        'PORT': '',
+        'USER': 'postgres'
+    }
+}
+"""
+
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
 
