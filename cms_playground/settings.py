@@ -96,12 +96,8 @@ WSGI_APPLICATION = 'cms_playground.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'HOST': 'localhost',
-        'NAME': 'cmsplayground',
-        'PASSWORD': '',
-        'PORT': '',
-        'USER': 'postgres'
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'project.db',
     }
 }
 
