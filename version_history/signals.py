@@ -1,12 +1,16 @@
-from cms.signals import post_publish
-
-from cms.models import Page, Title, CMSPlugin
+import functools
+import json
 
 from django.core.serializers import serialize, deserialize
+from django.core.serializers.json import DjangoJSONEncoder
 
-from .models import Version_History
+from cms.plugin_pool import plugin_pool
+from cms.signals import post_publish
+from cms.models import Page, Title, CMSPlugin
 
 from djangocms_history.helpers import get_plugin_data
+
+from .models import VersionHistory
 
 
 """
@@ -21,9 +25,6 @@ Questions:
 
 
 # Taken from cms/models/pluginmodel -> CMSPlugin
-from cms.plugin_pool import plugin_pool
-
-
 def get_plugin(plugin_type):
     return plugin_pool.get_plugin(plugin_type)
 
@@ -48,11 +49,6 @@ def _get_plugin_from_id(plugin_id):
 
 
 # Taken from djangocms_history/models
-import functools
-import json
-
-from django.core.serializers.json import DjangoJSONEncoder
-
 dump_json = functools.partial(json.dumps, cls=DjangoJSONEncoder)
 
 
@@ -66,7 +62,7 @@ def _publish_receiver(sender, **kwargs):
     page_placeholders_list = page_instance.placeholders.all()
     page_placeholders = serialize('json', page_placeholders_list)
 
-    # FIXME: Flawed due ot the fact that language matters here!!!
+    # FIXME: Flawed due to the fact that language matters here!!!
     cms_plugin_list = {}
     cms_plugin_instance_list = {}
     # Get all cms plugins for each placeholder
@@ -87,7 +83,7 @@ def _publish_receiver(sender, **kwargs):
         cms_plugin_instance_list[placeholder.id] = plugin_instance_list
         cms_plugin_list[placeholder.id] = serialize('json', plugin_list)
 
-    version = Version_History(
+    version = VersionHistory(
         page_id=page_instance.id,
         title_id=title_instance.id,
         title_data= serialize('json', [ title_instance ]),

@@ -1,25 +1,13 @@
 from django.shortcuts import render
-
 from django.http import HttpResponse
-from django.template import loader
-
-from cms.models import Page, Title, CMSPlugin
-
-from .models import Version_History
-
-#from django.db.models import Count, Prefetch
-
 from django.core.serializers import serialize, deserialize
 
-def _get_title(title_id):
-    try:
-        return Title.objects.get(id=title_id)
-    except Title.DoesNotExist:
-        return None
-
-# Taken from cms/models/pluginmodel -> CMSPlugin
 from cms.plugin_pool import plugin_pool
 
+from .models import VersionHistory
+
+
+# Taken from cms/models/pluginmodel -> CMSPlugin
 def get_plugin(plugin_type):
     return plugin_pool.get_plugin(plugin_type)
 
@@ -27,7 +15,7 @@ def get_plugin(plugin_type):
 def rewind(request):
 
     try:
-        chosen_instance = Version_History.objects.get(id=request.POST['history'])
+        chosen_instance = VersionHistory.objects.get(id=request.POST['history'])
 
         title_data = chosen_instance.title_data
         page_data = chosen_instance.page_data
@@ -36,7 +24,17 @@ def rewind(request):
         plugin_instance = chosen_instance.plugin_instance
         created_date = chosen_instance.created_date
 
+
+        # Get the draft page id, title id and update the data on the draft using the serialized data
+
+
+        # Restore the title
         title_data = deserialize("json", title_data)
+        title = title_data[0]
+        title_id = title.object.id
+        del(title.object.id)
+        new_title = title.save()
+
         page_data = deserialize("json", page_data)
 
 
@@ -54,7 +52,7 @@ def index(request):
 
         #return track_instances(page_id, title_id, page_language)
 
-        queryset_page_history = Version_History.objects.filter(
+        queryset_page_history = VersionHistory.objects.filter(
             page_id=page_id,
             title_id=title_id,
         ).order_by(
