@@ -1,3 +1,5 @@
+import json
+
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.core.serializers import serialize, deserialize
@@ -5,7 +7,7 @@ from django.core.serializers import serialize, deserialize
 from .models import VersionHistory
 
 
-def create_version(request):
+def view_versions(request):
 
     page_id = request.GET['page_id']
     title_id = request.GET['title_id']
@@ -36,16 +38,19 @@ def create_version(request):
     return HttpResponse('Page id or title id not found')
 
 
+
+
 def rewind(request):
 
     try:
         chosen_instance = VersionHistory.objects.get(id=request.POST['history'])
 
-        title_data = chosen_instance.title_data
-        page_data = chosen_instance.page_data
-        placeholders = chosen_instance.placeholders
-        plugins = chosen_instance.plugins
-        plugin_instance = chosen_instance.plugin_instance
+        title_data = json.loads(chosen_instance.title_data)
+
+        page_data = json.loads(chosen_instance.page_data)
+        placeholders = json.loads(chosen_instance.placeholders)
+        plugins = json.loads(chosen_instance.plugins)
+        plugin_instance = json.loads(chosen_instance.plugin_instance)
         created_date = chosen_instance.created_date
 
 
@@ -59,7 +64,7 @@ def rewind(request):
         del(title.object.id)
         new_title = title.save()
 
-        page_data = deserialize("json", page_data)
+        #page_data = deserialize("json", page_data)
 
 
     except VersionHistory.DoesNotExist as err:

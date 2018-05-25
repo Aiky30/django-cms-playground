@@ -24,7 +24,7 @@ class VersionHistoryToolbar(CMSToolbar):
 
             current_page_id = current_page.id
 
-            url = '/version_history/create_version/?page_id=%s&title_id=%s&page_language=%s' % (current_page_id, self.title.id, self.current_lang)
+            url = '/version_history/view_versions/?page_id=%s&title_id=%s&page_language=%s' % (current_page_id, self.title.id, self.current_lang)
             name = 'History'
 
             """

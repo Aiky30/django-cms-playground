@@ -9,7 +9,7 @@ from .external_utils import get_title, _get_plugin_from_id, dump_json
 
 
 # A function that subscribes to the post publish signal
-def _publish_receiver(sender, **kwargs):
+def _create_version(sender, **kwargs):
 
     page_instance = kwargs['instance']
     page_language = kwargs['language']
@@ -36,7 +36,7 @@ def _publish_receiver(sender, **kwargs):
             plugin_instance = _get_plugin_from_id(plugin_id=plugin.id)
             fetched_data = get_plugin_data(plugin=plugin_instance)
 
-            plugin_instance_list.append(dump_json(fetched_data))
+            plugin_instance_list.append(fetched_data)
 
         cms_plugin_instance_list[placeholder.id] = plugin_instance_list
         cms_plugin_list[placeholder.id] = serialize('json', plugin_list)
@@ -44,14 +44,14 @@ def _publish_receiver(sender, **kwargs):
     version = VersionHistory(
         page_id=page_instance.id,
         title_id=title_instance.id,
-        title_data=serialize('json', [ title_instance ]),
-        page_data=serialize('json', [ page_instance ]),
-        placeholders=page_placeholders,
-        plugins=cms_plugin_list,
-        plugin_instance=cms_plugin_instance_list,
+        title_data=str(serialize('json', [ title_instance ])),
+        page_data=str(serialize('json', [ page_instance ])),
+        placeholders=str(page_placeholders),
+        plugins=str(dump_json(cms_plugin_list)),
+        plugin_instance=str(dump_json(cms_plugin_instance_list)),
     )
 
     version.save()
 
 
-post_publish.connect(_publish_receiver)
+post_publish.connect(_create_version)
