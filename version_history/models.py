@@ -4,6 +4,7 @@ from django.contrib.postgres.fields import JSONField
 #FIXME: Can't use postgres JSON field for compatibility
 # TODO: Type of version (Page, Article) Should be registered in app config!!
 
+
 class VersionHistory(models.Model):
     page_id = models.CharField(max_length=50, null=True, blank=True, db_index=True)
     title_id = models.CharField(max_length=50, null=True, blank=True, db_index=True)

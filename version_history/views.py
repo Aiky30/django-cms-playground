@@ -2,14 +2,38 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.core.serializers import serialize, deserialize
 
-from cms.plugin_pool import plugin_pool
-
 from .models import VersionHistory
 
 
-# Taken from cms/models/pluginmodel -> CMSPlugin
-def get_plugin(plugin_type):
-    return plugin_pool.get_plugin(plugin_type)
+def create_version(request):
+
+    page_id = request.GET['page_id']
+    title_id = request.GET['title_id']
+    page_language = request.GET['page_language']
+
+    if page_id and title_id:
+
+        #return track_instances(page_id, title_id, page_language)
+
+        queryset_page_history = VersionHistory.objects.filter(
+            page_id=page_id,
+            title_id=title_id,
+        ).order_by(
+            '-created_date'
+        )
+
+        #return HttpResponse(template)
+        return render(request, 'version_history/history_list.html', {
+            'revert_url': '/version_history/rewind/',
+            'page_stats': {
+                'page_id': page_id,
+                'title_id': title_id,
+            },
+            'page_history': queryset_page_history,
+            'page_history_length': len(queryset_page_history),
+        })
+
+    return HttpResponse('Page id or title id not found')
 
 
 def rewind(request):
@@ -38,39 +62,8 @@ def rewind(request):
         page_data = deserialize("json", page_data)
 
 
-    except Version_History.DoesNotExist as err:
+    except VersionHistory.DoesNotExist as err:
         return HttpResponse('Version cannot be found')
 
 
-def index(request):
-
-    page_id = request.GET['page_id']
-    title_id = request.GET['title_id']
-    page_language = request.GET['page_language']
-
-    if page_id and title_id:
-
-        #return track_instances(page_id, title_id, page_language)
-
-        queryset_page_history = VersionHistory.objects.filter(
-            page_id=page_id,
-            title_id=title_id,
-        ).order_by(
-            '-created_date'
-        )
-
-        return render(request, 'version_history/history_list.html', {
-            'revert_url': '/version_history/rewind/',
-            'page_stats': {
-                'page_id': page_id,
-                'title_id': title_id,
-            },
-            'page_history': queryset_page_history,
-            'page_history_length': len(queryset_page_history),
-        })
-
-        #return HttpResponse(template)
-
-
-    return HttpResponse('Page id or title id not found')
 

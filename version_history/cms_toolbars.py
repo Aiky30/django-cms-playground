@@ -1,33 +1,18 @@
-from django.core.urlresolvers import reverse
-from django.utils.translation import ugettext_lazy as _
 from cms.toolbar_pool import toolbar_pool
-from cms.toolbar.items import Break
-from cms.cms_toolbars import ADMIN_MENU_IDENTIFIER, ADMINISTRATION_BREAK
 from cms.toolbar_base import CMSToolbar
-
 from cms.constants import RIGHT, REFRESH_PAGE, LEFT
-
-from cms.models import Page, Title
-
-
 from cms.api import get_page_draft, can_change_page
 
+from .external_utils import get_title
 
 # Contains code and methods Taken from PageToolbar in CMS cms_toobar.py
-
 
 @toolbar_pool.register
 class VersionHistoryToolbar(CMSToolbar):
 
     def init_from_request(self):
         self.page = get_page_draft(self.request.current_page)
-        self.title = self.get_title()
-
-    def get_title(self):
-        try:
-            return Title.objects.get(page=self.page, language=self.current_lang, publisher_is_draft=True)
-        except Title.DoesNotExist:
-            return None
+        self.title = get_title(self.page, self.current_lang)
 
     def populate(self):
 
@@ -39,7 +24,7 @@ class VersionHistoryToolbar(CMSToolbar):
 
             current_page_id = current_page.id
 
-            url = '/version_history/index/?page_id=%s&title_id=%s&page_language=%s' % (current_page_id, self.title.id, self.current_lang)
+            url = '/version_history/create_version/?page_id=%s&title_id=%s&page_language=%s' % (current_page_id, self.title.id, self.current_lang)
             name = 'History'
 
             """
