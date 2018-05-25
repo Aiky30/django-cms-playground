@@ -4,17 +4,17 @@
 
 Create a virtual environment
 ```
-pyvenv ~/minimal-cms
+pyvenv ~/aikman_versioning
 ```
 
 Change into the project
 ```
-cd ~/minimal-cms/bin
+cd ~/aikman_versioning/bin
 ```
 
 Clone this repository
 ```
-git clone git@github.com:Aiky30/django-cms-minimal.git
+git clone git@github.com:Aiky30/django-cms-playground.git
 ```
 
 Activate the source
@@ -33,6 +33,8 @@ Install Django
 ```
 pip install -r requirements.txt
 ```
+
+Create a Postgres DB with the name: "cmsplayground"
 
 Populate the database
 ```
