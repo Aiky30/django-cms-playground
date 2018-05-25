@@ -37,5 +37,6 @@ def _get_plugin_from_id(plugin_id):
 
 
 # dump_json Taken from djangocms_history/models
-def dump_json():
-    return functools.partial(json.dumps, cls=DjangoJSONEncoder)
+def dump_json(data):
+    dump_control = functools.partial(json.dumps, cls=DjangoJSONEncoder)
+    return dump_control(data)
