@@ -29,7 +29,12 @@ pip install --upgrade pip
 
 ## For first time project setup
 
-Install Django
+Change into the project
+```
+cd ~/aikman_versioning/bin/django-cms-playground
+```
+
+Install packages
 ```
 pip install -r requirements.txt
 ```
