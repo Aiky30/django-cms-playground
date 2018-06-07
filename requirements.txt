@@ -1,12 +1,10 @@
-Django==1.10.8
+Django==1.11
 django-classy-tags==0.8.0
-django-cms==3.5.2
+-e git+git@github.com:Aiky30/django-cms.git#egg=cms
 django-formtools==2.1
-django-reversion==2.0.13
 django-sekizai==0.10.0
 django-treebeard==4.3
 djangocms-admin-style==1.2.8
-djangocms-history==0.5.3
 djangocms-text-ckeditor==3.6.0
 html5lib==0.9999999
 Pillow==5.1.0
