@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'treebeard',
     'sekizai',
     'djangocms_text_ckeditor',
+    'logentry_admin',
+    'django-filer',
 ]
 
 MIDDLEWARE = [
@@ -68,8 +70,6 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             'templates',
-            'history/templates',
-            'cms_stb_plugin/templates',
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -90,7 +90,9 @@ WSGI_APPLICATION = 'cms_playground.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
+
 """
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -106,13 +108,12 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'HOST': 'localhost',
-        'NAME': 'cms_logger',
+        'NAME': 'temp_db',
         'PASSWORD': '',
         'PORT': '',
         'USER': 'postgres'
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
