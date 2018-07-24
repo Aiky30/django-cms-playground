@@ -39,12 +39,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'cms',
+    'easy_thumbnails',
+    'filer',
+    'mptt',
     'menus',
     'treebeard',
     'sekizai',
     'djangocms_text_ckeditor',
     'logentry_admin',
-    'django-filer',
 ]
 
 MIDDLEWARE = [
