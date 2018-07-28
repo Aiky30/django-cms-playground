@@ -106,7 +106,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'HOST': 'localhost',
-        'NAME': 'cms_logger',
+        'NAME': 'cms4_dev',
         'PASSWORD': '',
         'PORT': '',
         'USER': 'postgres'
