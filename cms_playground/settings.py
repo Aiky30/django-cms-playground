@@ -68,8 +68,6 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             'templates',
-            'history/templates',
-            'cms_stb_plugin/templates',
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -106,7 +104,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'HOST': 'localhost',
-        'NAME': 'cms4_dev',
+        'NAME': 'cms_data_generator',
         'PASSWORD': '',
         'PORT': '',
         'USER': 'postgres'
@@ -163,6 +161,8 @@ LANGUAGES = [
 
 CMS_TEMPLATES = [
     ('home.html', 'Home page template'),
+    ('homepage.html', 'Home page template'),
+    ('page.html', 'Page template'),
 ]
 
 """
