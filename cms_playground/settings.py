@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'treebeard',
     'sekizai',
     'djangocms_text_ckeditor',
-    'djangocms_versioning',
+    'djangocms_alias',
 ]
 
 MIDDLEWARE = [
@@ -105,7 +105,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'HOST': 'localhost',
-        'NAME': 'cms_data_generator',
+        'NAME': 'cms_3_6',
         'PASSWORD': '',
         'PORT': '',
         'USER': 'postgres'
